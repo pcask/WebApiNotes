@@ -1,7 +1,12 @@
 ﻿
+using NLog;
 using ProjectManagement.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// NLog configuration bilgilerinin oluşturduğumuz "nlog.config" dosyasından yükleneceğini bildiriyoruz.
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
 
 // Add services to the container.
 
@@ -10,8 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Yazmış olduğumuz extension method aracılığıyla Cors Configurations' larımızı Services'lara ekliyoruz.
+// Yazmış olduğumuz extension method aracılığıyla Cors Configurations' larımızı ekliyoruz.
 builder.Services.ConfigureCors();
+
+// Yazmış olduğumuz extension method aracılığıyla Loglama işlemi için IoC Container'a tip kayıtlarını ekliyoruz.
+builder.Services.ConfigureLoggerManager();
 
 var app = builder.Build();
 

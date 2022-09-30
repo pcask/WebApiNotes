@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Contracts;
+using LoggerService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,11 @@ namespace ProjectManagement.Extensions
                     .WithMethods("get");
                 });
             });
+        }
+
+        public static void ConfigureLoggerManager(this IServiceCollection services)
+        {
+            services.AddSingleton<ILoggerService, LoggerManager>();
         }
     }
 }
