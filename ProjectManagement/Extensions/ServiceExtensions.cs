@@ -1,5 +1,7 @@
 ﻿using Contracts;
 using LoggerService;
+using Microsoft.EntityFrameworkCore;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,14 @@ namespace ProjectManagement.Extensions
         public static void ConfigureLoggerManager(this IServiceCollection services)
         {
             services.AddSingleton<ILoggerService, LoggerManager>();
+        }
+
+        public static void ConfigureSqlConnection(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<RepositoryContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("sqlConnection"),
+                optionsBuilder => optionsBuilder.MigrationsAssembly("ProjectManagement")) // Migration dosyalarının hangi assembly de oluşacağını belirtiyoruz.
+            );
         }
     }
 }
