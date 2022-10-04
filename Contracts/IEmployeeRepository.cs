@@ -10,7 +10,7 @@ namespace Contracts
     public interface IEmployeeRepository
     {
         IEnumerable<Employee> GetAllEmployeesByProjectId(Guid projectId, bool trackChanges);
-        Employee GetEmployeeByProjectId(Guid projectId, int employeeId, bool trackChanges);
+        Employee GetEmployeeByProjectId(Guid projectId, Guid employeeId, bool trackChanges);
 
         void CreateEmployeeForProject(Guid projectId, Employee employee);
         void DeleteEmployee(Employee employee);

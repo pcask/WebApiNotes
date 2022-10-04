@@ -12,8 +12,8 @@ using Repository;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221003001356_CreateWebApiNotesDB")]
-    partial class CreateWebApiNotesDB
+    [Migration("20221004105456_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,12 +26,10 @@ namespace ProjectManagement.Migrations
 
             modelBuilder.Entity("Entities.Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("EmployeeId");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -55,6 +53,17 @@ namespace ProjectManagement.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("359f7f82-6a5a-455e-b672-4daa82a92202"),
+                            DateOfBirth = new DateTime(1992, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Sezer",
+                            LastName = "Ayran",
+                            Position = "Sofware Developer",
+                            ProjectId = new Guid("404de5b9-3246-40bb-847c-952313521ee2")
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Project", b =>
@@ -81,6 +90,22 @@ namespace ProjectManagement.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("79d72fb7-9ee9-4ef0-a87a-ad4661848d9d"),
+                            Description = "ASP.NET Core Web API Project on Onion Architecture.",
+                            Field = "Computer Science",
+                            Name = "ASP.NET Core Web API Project"
+                        },
+                        new
+                        {
+                            Id = new Guid("404de5b9-3246-40bb-847c-952313521ee2"),
+                            Description = "An app that aims to raise public awareness about carbon footprint.",
+                            Field = "Global Warming",
+                            Name = "Save The World"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Employee", b =>

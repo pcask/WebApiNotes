@@ -15,14 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Yazmış olduğumuz extension method aracılığıyla Cors için gerekli Configurations' larımızı ekliyoruz.
+// Yazmış olduğumuz extension method'lar aracılığıyla gerekli configuration'ları builder'a ekliyoruz.
 builder.Services.ConfigureCors();
-
-// Yazmış olduğumuz extension method aracılığıyla Loglama işlemi için IoC Container'a tip kayıtlarını ekliyoruz.
 builder.Services.ConfigureLoggerManager();
-
-// Yazmış olduğumuz extension method aracılığıyla Sql Connection için gerekli Configurations' larımızı ekliyoruz.
 builder.Services.ConfigureSqlConnection(builder.Configuration);
+builder.Services.ConfigureRepositoryManager();
 
 var app = builder.Build();
 

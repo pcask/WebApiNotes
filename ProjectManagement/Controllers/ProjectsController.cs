@@ -9,19 +9,13 @@ namespace ProjectManagement.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly List<Project> _projects;
         private readonly ILoggerService _logger;
+        private readonly IRepositoryManager _repository;
 
-        public ProjectsController(ILoggerService logger)
+        public ProjectsController(ILoggerService logger, IRepositoryManager repositoryManager)
         {
-            _projects = new List<Project>()
-            {
-                new Project{ Id = Guid.NewGuid(), Name = "Project 1" },
-                new Project{ Id = Guid.NewGuid(), Name = "Project 2" },
-                new Project{ Id = Guid.NewGuid(), Name = "Project 3" },
-            };
-
             _logger = logger; // DI with constructor method.
+            _repository = repositoryManager;
         }
 
         [HttpGet]
@@ -29,12 +23,13 @@ namespace ProjectManagement.Controllers
         {
             try
             {
-                int z = 0;
-                int r = 10 / z;
+                // False parametresi ile EntityFrameworkCore'un AsNoTracking method'ı aracılığıyla gelen verilerin takibi yapılmaz, bu da kaynakların 
+                // serbest bırakılmasını sağlayarak bize performans artışı sağlayacaktır.
+                var projects = _repository.Project.GetAllProjects(false);
 
                 _logger.LogInfo("Projects.Get() has been run successfully.");
 
-                return Ok(_projects);
+                return Ok(projects);
             }
             catch (Exception ex)
             {
