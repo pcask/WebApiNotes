@@ -10,9 +10,9 @@ namespace Contracts
     public interface IRepositoryBase<T> where T : class
     {
         // Lazy-Loading için IQueryable interface'ini kullanıyoruz.
-        IQueryable<T> GetAll(bool trackChanges);
-        IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges);
-
+        IQueryable<T> FindAll(bool trackChanges);
+        IQueryable<T> FindByCondition(Expression<Func<T, bool>> filter, bool trackChanges);
+        
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
