@@ -45,9 +45,7 @@ namespace ProjectManagement.Extensions
             );
         }
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
-            services.AddScoped<IRepositoryService, RepositoryManager>()
-                    .AddScoped<IProjectRepository, ProjectRepository>()
-                    .AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IRepositoryService, RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>()
                     .AddScoped<IProjectService, ProjectManager>();
