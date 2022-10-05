@@ -38,7 +38,7 @@ namespace ProjectManagement.Presentation
         {
             try
             {
-                Project project = _service.ProjectService.GetProjectById(id, false);
+                var project = _service.ProjectService.GetProjectById(id, false);
                 return Ok(project);
             }
             catch

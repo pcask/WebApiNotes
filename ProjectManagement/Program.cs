@@ -1,6 +1,7 @@
 ﻿
 using NLog;
 using ProjectManagement.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,9 @@ builder.Services.ConfigureLoggerManager();
 builder.Services.ConfigureSqlConnection(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+
+// Belirtilen Assembly içerisindeki bütün 'Profile' türündeki nesneleri bulur ve mapping işlemleri için bu Profile'ları baz alır. 
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

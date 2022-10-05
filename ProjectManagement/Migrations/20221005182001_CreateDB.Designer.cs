@@ -12,7 +12,7 @@ using Repository;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221004105456_CreateDB")]
+    [Migration("20221005182001_CreateDB")]
     partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
