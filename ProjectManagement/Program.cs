@@ -10,7 +10,10 @@ LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nl
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+// Aşağıda belirttiğimiz Assembly'den gelecek request'lerin de karşılanmasını sağlamak için AddApplicationPart method'ından yararlanıyoruz.
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(ProjectManagement.Presentation.AssemblyReference).Assembly);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

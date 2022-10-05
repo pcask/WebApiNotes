@@ -19,14 +19,14 @@ namespace Service
         {
             try
             {
-                var projects = _repository.Project.GetAllProjects(false);
+                var projects = _repository.Project.GetAllProjects(trackChanges);
 
-                _logger.LogInfo("Projects.Get() has been run successfully.");
+                _logger.LogInfo("ProjectService.GetAllProjects() has been run successfully.");
                 return projects;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Projects.Get() has been crashed! " + ex.Message);
+                _logger.LogError("ProjectService.GetAllProjects() has been crashed! " + ex.Message);
                 throw;
             }
         }
