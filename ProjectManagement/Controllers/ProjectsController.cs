@@ -2,6 +2,7 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Service.Contracts;
 
 namespace ProjectManagement.Controllers
 {
@@ -9,33 +10,22 @@ namespace ProjectManagement.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly ILoggerService _logger;
-        private readonly IRepositoryManager _repository;
+        private readonly IServiceManager _service;
 
-        public ProjectsController(ILoggerService logger, IRepositoryManager repositoryManager)
+        // DI with constructor method.
+        public ProjectsController(IServiceManager service)
         {
-            _logger = logger; // DI with constructor method.
-            _repository = repositoryManager;
+            _service = service;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            try
-            {
-                // False parametresi ile EntityFrameworkCore'un AsNoTracking method'ı aracılığıyla gelen verilerin takibi yapılmaz, bu da kaynakların 
-                // serbest bırakılmasını sağlayarak bize performans artışı sağlayacaktır.
-                var projects = _repository.Project.GetAllProjects(false);
+            // False parametresi ile EntityFrameworkCore'un AsNoTracking method'ı aracılığıyla gelen verilerin takibi yapılmaz, bu da kaynakların 
+            // serbest bırakılmasını sağlayarak bize performans artışı sağlayacaktır.
+            var projects = _service.ProjectService.GetAllProjects(false);
 
-                _logger.LogInfo("Projects.Get() has been run successfully.");
-
-                return Ok(projects);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Projects.Get() has been crashed! " + ex.Message);
-                throw;
-            }
+            return Ok(projects);
         }
     }
 }

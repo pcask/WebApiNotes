@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts
 {
-    public interface IRepositoryManager
+    public interface IRepositoryService
     {
         IProjectRepository Project { get; }
         IEmployeeRepository Employee { get; }

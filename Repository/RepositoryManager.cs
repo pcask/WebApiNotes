@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class RepositoryManager : IRepositoryManager
+    public class RepositoryManager : IRepositoryService
     {
         private readonly RepositoryContext _context;
 
-        private readonly ProjectRepository _projectRepository;
-        private readonly EmployeeRepository _employeeRepository;
+        private readonly IProjectRepository _projectRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public RepositoryManager(RepositoryContext context, ProjectRepository projectRepository, EmployeeRepository employeeRepository)
+        public RepositoryManager(RepositoryContext context, IProjectRepository projectRepository, IEmployeeRepository employeeRepository)
         {
             _context = context;
             _projectRepository = projectRepository;

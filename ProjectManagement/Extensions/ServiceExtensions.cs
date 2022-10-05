@@ -2,6 +2,8 @@
 using LoggerService;
 using Microsoft.EntityFrameworkCore;
 using Repository;
+using Service;
+using Service.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,10 @@ namespace ProjectManagement.Extensions
                 });
             });
         }
+
+        // Singleton => Uygulama çalışmaya başladığında gerekli nesnelerin instance'ı oluşturulur ve uygulama sonlanana kadar bu instance kulanılır.
+        // Scoped    => Request gönderildikten sonra gerekli nesnelerin instance'ı oluşturulur ve request sonlanana kadar bu instance kulanılır.
+        // Transient => Gerekli nesneler için her zaman yeni bir nesne oluşturulur.
         public static void ConfigureLoggerManager(this IServiceCollection services)
         {
             services.AddSingleton<ILoggerService, LoggerManager>();
@@ -39,13 +45,11 @@ namespace ProjectManagement.Extensions
             );
         }
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
-            services.AddScoped<IRepositoryManager, RepositoryManager>()
-                .AddScoped(typeof(ProjectRepository))
-                .AddScoped(typeof(EmployeeRepository));
-
-        // Singleton => Uygulama çalışmaya başladığında gerekli nesnelerin instance'ı oluşturulur ve uygulama sonlanana kadar bu instance kulanılır.
-        // Scoped    => Request gönderildikten sonra gerekli nesnelerin instance'ı oluşturulur ve request sonlanana kadar bu instance kulanılır.
-        // Transient => Gerekli nesneler için her zaman yeni bir nesne oluşturulur.
-
+            services.AddScoped<IRepositoryService, RepositoryManager>()
+                    .AddScoped<IProjectRepository, ProjectRepository>()
+                    .AddScoped<IEmployeeRepository, EmployeeRepository>();
+        public static void ConfigureServiceManager(this IServiceCollection services) =>
+            services.AddScoped<IServiceManager, ServiceManager>()
+                    .AddScoped<IProjectService, ProjectManager>();
     }
 }
