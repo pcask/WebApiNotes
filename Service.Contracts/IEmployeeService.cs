@@ -5,14 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts
+namespace Service.Contracts
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeService
     {
         IEnumerable<Employee> GetAllEmployeesByProjectId(Guid projectId, bool trackChanges);
         Employee GetEmployeeById(Guid projectId, Guid employeeId, bool trackChanges);
-
-        void CreateEmployeeForProject(Guid projectId, Employee employee);
-        void DeleteEmployee(Employee employee);
     }
 }

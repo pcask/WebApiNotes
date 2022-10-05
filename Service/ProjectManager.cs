@@ -21,12 +21,28 @@ namespace Service
             {
                 var projects = _repository.Project.GetAllProjects(trackChanges);
 
-                _logger.LogInfo("ProjectService.GetAllProjects() has been run successfully.");
+                _logger.LogInfo("IProjectService.GetAllProjects() has been run successfully.");
                 return projects;
             }
             catch (Exception ex)
             {
-                _logger.LogError("ProjectService.GetAllProjects() has been crashed! " + ex.Message);
+                _logger.LogError("IProjectService.GetAllProjects() has been crashed! " + ex.Message);
+                throw;
+            }
+        }
+
+        public Project GetProjectById(Guid id, bool trackChanges)
+        {
+            try
+            {
+                var project = _repository.Project.GetProjectById(id, trackChanges);
+
+                _logger.LogInfo("IProjectService.GetProjectById() has been run successfully.");
+                return project;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("IProjectService.GetProjectById() has been crashed! " + ex.Message);
                 throw;
             }
         }

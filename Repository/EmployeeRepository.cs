@@ -26,7 +26,7 @@ namespace Repository
             .OrderBy(e => e.FirstName)
             .ToList();
 
-        public Employee GetEmployeeByProjectId(Guid projectId, Guid employeeId, bool trackChanges) =>
+        public Employee GetEmployeeById(Guid projectId, Guid employeeId, bool trackChanges) =>
             FindByCondition(e => e.ProjectId == projectId && e.Id == employeeId, trackChanges)
             .FirstOrDefault();
     }
