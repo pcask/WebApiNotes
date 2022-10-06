@@ -21,34 +21,14 @@ namespace Service
 
         public IEnumerable<ProjectDto> GetAllProjects(bool trackChanges)
         {
-            try
-            {
-                var projects = _repository.Project.GetAllProjects(trackChanges);
-
-                _logger.LogInfo("IProjectService.GetAllProjects() has been run successfully.");
-                return _mapper.Map<IEnumerable<ProjectDto>>(projects);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("IProjectService.GetAllProjects() has been crashed! " + ex.Message);
-                throw;
-            }
+            var projects = _repository.Project.GetAllProjects(trackChanges);
+            return _mapper.Map<IEnumerable<ProjectDto>>(projects);
         }
 
         public ProjectDto GetProjectById(Guid id, bool trackChanges)
         {
-            try
-            {
-                var project = _repository.Project.GetProjectById(id, trackChanges);
-
-                _logger.LogInfo("IProjectService.GetProjectById() has been run successfully.");
-                return _mapper.Map<ProjectDto>(project);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("IProjectService.GetProjectById() has been crashed! " + ex.Message);
-                throw;
-            }
+            var project = _repository.Project.GetProjectById(id, trackChanges);
+            return _mapper.Map<ProjectDto>(project);
         }
     }
 }
