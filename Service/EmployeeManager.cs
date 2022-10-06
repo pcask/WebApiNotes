@@ -27,6 +27,8 @@ namespace Service
 
         public IEnumerable<EmployeeDto> GetAllEmployeesByProjectId(Guid projectId, bool trackChanges)
         {
+            CheckProjectExists(projectId);
+
             var employees = _repository.Employee.GetAllEmployeesByProjectId(projectId, trackChanges);
 
             return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
@@ -34,12 +36,22 @@ namespace Service
 
         public EmployeeDto GetEmployeeById(Guid projectId, Guid employeeId, bool trackChanges)
         {
+            CheckProjectExists(projectId);
+
             var employee = _repository.Employee.GetEmployeeById(projectId, employeeId, trackChanges);
-            
+
             if (employee == null)
                 throw new EmployeeNotFoundException(employeeId);
-            
+
             return _mapper.Map<EmployeeDto>(employee);
+        }
+
+        private void CheckProjectExists(Guid projectId)
+        {
+            var project = _repository.Project.GetProjectById(projectId, trackChanges: false);
+
+            if (project == null)
+                throw new ProjectNotFoundException(projectId);
         }
     }
 }
