@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.ErrorModel;
+using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -19,16 +20,22 @@ namespace ProjectManagement.Extensions
                 {
                     httpContext.Response.ContentType = "application/json";
 
-                    var exFeature = httpContext.Features.Get<IExceptionHandlerFeature>();
+                    var featureError = httpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
 
-                    if (exFeature != null)
+                    if (featureError != null)
                     {
-                        logger.LogError("There is a problem : " + exFeature.Error);
+                        httpContext.Response.StatusCode = featureError switch
+                        {
+                            NotFoundException => StatusCodes.Status404NotFound,
+                            _ => StatusCodes.Status500InternalServerError
+                        };
+
+                        logger.LogError("There is a problem : " + featureError);
 
                         await httpContext.Response.WriteAsync(new ErrorDetails()
                         {
-                            Message = "Internal server error.",
-                            StatusCode = StatusCodes.Status500InternalServerError,
+                            Message = featureError.Message,
+                            StatusCode = httpContext.Response.StatusCode,
                         }.ToString());
                     }
                 });

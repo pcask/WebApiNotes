@@ -22,29 +22,17 @@ namespace ProjectManagement.Presentation
         [HttpGet]
         public IActionResult GetAllEmployeesByProjectId(Guid projectId)
         {
-            try
-            {
-                var employees = _service.EmployeeService.GetAllEmployeesByProjectId(projectId, false);
-                return Ok(employees);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal Server Error!");
-            }
+            var employees = _service.EmployeeService.GetAllEmployeesByProjectId(projectId, false);
+
+            return Ok(employees);
         }
 
         [HttpGet("{employeeId:guid}")]
         public IActionResult GetEmployeeById(Guid projectId, Guid employeeId)
         {
-            try
-            {
-                var employee = _service.EmployeeService.GetEmployeeById(projectId, employeeId, false);
-                return Ok(employee);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal Server Error!");
-            }
+            var employee = _service.EmployeeService.GetEmployeeById(projectId, employeeId, false);
+
+            return Ok(employee);
         }
     }
 }

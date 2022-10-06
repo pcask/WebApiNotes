@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -28,6 +29,10 @@ namespace Service
         public ProjectDto GetProjectById(Guid id, bool trackChanges)
         {
             var project = _repository.Project.GetProjectById(id, trackChanges);
+
+            if (project == null)
+                throw new ProjectNotFoundException(id);
+
             return _mapper.Map<ProjectDto>(project);
         }
     }

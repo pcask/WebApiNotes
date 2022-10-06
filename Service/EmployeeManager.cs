@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -26,35 +27,19 @@ namespace Service
 
         public IEnumerable<EmployeeDto> GetAllEmployeesByProjectId(Guid projectId, bool trackChanges)
         {
-            try
-            {
-                var employees = _repository.Employee.GetAllEmployeesByProjectId(projectId, trackChanges);
-                _logger.LogError("IEmployeeService.GetAllEmployeesByProjectId() has been run successfully!");
+            var employees = _repository.Employee.GetAllEmployeesByProjectId(projectId, trackChanges);
 
-                return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("IEmployeeService.GetAllEmployeesByProjectId() has been crashed! " + ex.Message);
-                throw;
-            }
-
+            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
         }
 
         public EmployeeDto GetEmployeeById(Guid projectId, Guid employeeId, bool trackChanges)
         {
-            try
-            {
-                var employee = _repository.Employee.GetEmployeeById(projectId, employeeId, trackChanges);
-                _logger.LogError("IEmployeeService.GetEmployeeById() has been run successfully!");
-
-                return _mapper.Map<EmployeeDto>(employee);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("IEmployeeService.GetEmployeeById() has been crashed! " + ex.Message);
-                throw;
-            }
+            var employee = _repository.Employee.GetEmployeeById(projectId, employeeId, trackChanges);
+            
+            if (employee == null)
+                throw new EmployeeNotFoundException(employeeId);
+            
+            return _mapper.Map<EmployeeDto>(employee);
         }
     }
 }
