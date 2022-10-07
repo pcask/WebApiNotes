@@ -1,14 +1,10 @@
 ﻿using Contracts;
 using LoggerService;
 using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Utilities.OutPutFormatters;
 using Repository;
 using Service;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectManagement.Extensions
 {
@@ -50,5 +46,8 @@ namespace ProjectManagement.Extensions
             services.AddScoped<IServiceManager, ServiceManager>()
                     .AddScoped<IProjectService, ProjectManager>()
                     .AddScoped<IEmployeeService, EmployeeManager>();
+
+        public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
+            builder.AddMvcOptions(option => option.OutputFormatters.Add(new CsvOutputFormatter()));
     }
 }

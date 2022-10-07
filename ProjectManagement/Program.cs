@@ -13,7 +13,15 @@ LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nl
 // Add services to the container.
 
 // Aşağıda belirttiğimiz Assembly'den gelecek request'lerin de karşılanmasını sağlamak için AddApplicationPart method'ından yararlanıyoruz.
-builder.Services.AddControllers()
+builder.Services.AddControllers(option =>
+{
+    option.RespectBrowserAcceptHeader = true; // Browser'dan gelen Accept Header'larını dikkate al demiş oluyoruz.
+    option.ReturnHttpNotAcceptable = true; // Eğer browser'dan Api'ımızın desteklemedi bir Accept Header gelirse 406 hatasını döner.
+    // Şuan Api'ımız varsayılan olarak json türünden bir response üretiyor, Ayrıca Xml ve Csv türünde response üretmesini de sağladık.
+    // Accep Header'da bunlar dışında bir türde response isteği yapılırsa 406 Not Acceptable hatası döneceğiz.
+})
+    .AddXmlDataContractSerializerFormatters() // Api'ımızın, istenilmesi durumunda response'u xml formatında sunmasını sağlıyoruz.
+    .AddCustomCSVFormatter() // Api'ımızın, istenilmesi durumunda response'u csv formatında sunmasını sağlıyoruz.
     .AddApplicationPart(typeof(ProjectManagement.Presentation.AssemblyReference).Assembly);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
