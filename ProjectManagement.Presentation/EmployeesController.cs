@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +28,20 @@ namespace ProjectManagement.Presentation
             return Ok(employees);
         }
 
-        [HttpGet("{employeeId:guid}")]
+        [HttpGet("{employeeId:guid}", Name = "GetEmployeeById")]
         public IActionResult GetEmployeeById(Guid projectId, Guid employeeId)
         {
             var employee = _service.EmployeeService.GetEmployeeById(projectId, employeeId, false);
 
             return Ok(employee);
+        }
+
+        [HttpPost]
+        public IActionResult CreateOneEmployee(Guid projectId, [FromBody] EmployeeDtoForCreation eDtoFC)
+        {
+            EmployeeDto employeeDto = _service.EmployeeService.CreateOneEmployee(projectId, eDtoFC);
+
+            return CreatedAtRoute("GetEmployeeById", new { projectId, employeeId = employeeDto.Id }, employeeDto);
         }
     }
 }

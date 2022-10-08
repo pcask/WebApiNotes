@@ -15,6 +15,8 @@ namespace ProjectManagement.Utilities.Mapping
         {
             CreateMap<Project, ProjectDto>();
             CreateMap<Employee, EmployeeDto>();
+            CreateMap<ProjectDtoForCreation, Project>();
+            CreateMap<EmployeeDtoForCreation, Employee>();
         }
     }
 }

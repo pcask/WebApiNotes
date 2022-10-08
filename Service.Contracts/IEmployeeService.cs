@@ -12,5 +12,6 @@ namespace Service.Contracts
     {
         IEnumerable<EmployeeDto> GetAllEmployeesByProjectId(Guid projectId, bool trackChanges);
         EmployeeDto GetEmployeeById(Guid projectId, Guid employeeId, bool trackChanges);
+        EmployeeDto CreateOneEmployee(Guid projectId, EmployeeDtoForCreation eDtoFC);
     }
 }
